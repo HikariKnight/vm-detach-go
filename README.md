@@ -16,7 +16,7 @@ Hotkey=space
 
 
 Valid modkeys are CTRL, ALT, SHIFT and WIN. If you want to use a combination of keys you just chain them with + so to hold ctrl and shift while pressing your hotkey, just write ctrl+shift inside the Modkeys option.<br>
-Note: the WIN key is reserved for many functions (also unimplemented) making it close to impossible to use it for hotkeys without using multiple modkeys.
+Note: the WIN key is reserved for many functions (also unimplemented ones) making it close to impossible to use it for hotkeys without using multiple modkeys, so you will have to experiment.
 
 The Hotkey is the key you want to press while holding down the Modkeys in order to trigger vm-detach to run putty in the background to tell your host machine that you want to disconnect your physical mouse and keyboard from the Guest OS.
 You can find all the valid keys here (just remove **VK_** from the button name so in order to use the spacebar you would type just **space** instead of **vk_space**)<br>
