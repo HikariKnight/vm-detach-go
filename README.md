@@ -35,7 +35,7 @@ go get gopkg.in/ini.v1
 then clone the repository
 ```bash
 git clone https://github.com/HikariKnight/vm-detach-go.git
-cd vm-detach
+cd vm-detach-go
 ```
 
 
