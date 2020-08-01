@@ -52,3 +52,7 @@ Build command for unix systems (for a debug version just replace `release` with 
 ```bash
 ./src/build release
 ```
+
+
+
+You will now have the compiled program inside the bin folder that is made in the beginning of the git repository.
