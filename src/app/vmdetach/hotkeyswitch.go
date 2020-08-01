@@ -1,76 +1,14 @@
-package main
+package vmdetach
 
 // Import the libraries we need
 import (
-	"fmt"
-	"os/exec"
 	"strings"
-	"syscall"
 
 	"github.com/MakeNowJust/hotkey"
-	"gopkg.in/ini.v1"
 )
 
-// Make a main function
-func main() {
-	// Make a new hotkey definition
-	hkey := hotkey.New()
-	quit := make(chan bool)
-
-	// Read our configs
-	cfg, cfgerr := ini.Load("hotkeys.ini")
-	// If we cannot read the file we use default values
-	if cfgerr != nil {
-		fmt.Printf("Fail to read file: %v", cfgerr)
-		fmt.Println("Using defaults instead")
-
-		// Make a hotkey to run putty with our profile
-		hkey.Register(hotkey.Ctrl+hotkey.Alt, hotkey.SPACE, func() {
-			detach()
-		})
-	} else {
-		// Get the modkeys for our vm-detach hotkey
-		modkeys := cfg.Section("").Key("Modkeys").String()
-
-		// Make a variable to contain our uint32 value for the key combination
-		var intkey = hotkey.None
-
-		// Convert the modkeys to a hotkey.Modifier
-		intkey = string2mod(modkeys)
-
-		// Get the hotkey from settings and convert to uint32
-		var inthotkey uint32 = hotkeySwitch(strings.ToUpper(cfg.Section("").Key("Hotkey").String()))
-
-		// Make our hotkey
-		hkey.Register(intkey, inthotkey, func() {
-			// Execute putty and detach our mkb from VM
-			detach()
-		})
-	}
-
-	// Make a hotkey to quit
-	hkey.Register(hotkey.Ctrl, 'Q', func() {
-		fmt.Println("Quit")
-		quit <- true
-	})
-
-	fmt.Println("Start hotkey's loop")
-	fmt.Println("Push Ctrl-Q to escape and quit")
-	<-quit
-}
-
-func detach() {
-	// Configure the command we will run
-	cmnd := exec.Command("putty.exe", "-load", "vm-detach")
-	// Hide the putty window
-	cmnd.SysProcAttr = &syscall.SysProcAttr{HideWindow: true}
-	// Run the command
-	cmnd.Start()
-	// Tell in prompt what we are doing
-	fmt.Println("Putty running to detach usb mouse and keyboard.")
-}
-
-func hotkeySwitch(s string) uint32 {
+// HotkeySwitch converts hotkey string to uint32
+func HotkeySwitch(s string) uint32 {
 	// Make a variable for our return value
 	var returnval uint32
 
@@ -365,47 +303,4 @@ func hotkeySwitch(s string) uint32 {
 		}
 	}
 	return returnval
-}
-
-func string2mod(s string) hotkey.Modifier {
-	// Make a variable to contain our modifier key value
-	var intkey = hotkey.None
-
-	// If a combination of modkeys are defined
-	if strings.Contains(s, "+") {
-
-		// Split the string by +
-		keys := strings.Split(s, "+")
-
-		// For every key in the combination
-		for v := range keys {
-			// Convert the key to a hotkey.modifier
-			if strings.EqualFold(keys[v], "ALT") {
-				intkey += hotkey.Alt
-			}
-			if strings.EqualFold(keys[v], "CTRL") {
-				intkey += hotkey.Ctrl
-			}
-			if strings.EqualFold(keys[v], "SHIFT") {
-				intkey += hotkey.Shift
-			}
-			if strings.EqualFold(keys[v], "WIN") {
-				intkey += hotkey.Win
-			}
-		}
-	} else {
-		if strings.EqualFold(s, "ALT") {
-			intkey += hotkey.Alt
-		}
-		if strings.EqualFold(s, "CTRL") {
-			intkey += hotkey.Ctrl
-		}
-		if strings.EqualFold(s, "SHIFT") {
-			intkey += hotkey.Shift
-		}
-		if strings.EqualFold(s, "WIN") {
-			intkey += hotkey.Win
-		}
-	}
-	return intkey
 }
