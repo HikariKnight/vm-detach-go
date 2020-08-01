@@ -39,7 +39,7 @@ cd vm-detach
 ```
 
 
-Build command for windows using your golang environment (if you want a version with a cmd output window just remove `-ldflags -H=windowsgui`
+Build command for windows using your golang environment (if you want a version with a cmd output window just remove `-ldflags -H=windowsgui`)
 ```bash
 mkdir bin
 cd src\
@@ -48,7 +48,7 @@ cp hotkeys.ini ..\bin\
 ```
 
 
-Build command for unix systems (for a debug version just replace `release` with `debug`
+Build command for unix systems (for a debug version just replace `release` with `debug`)
 ```bash
 ./src/build release
 ```
