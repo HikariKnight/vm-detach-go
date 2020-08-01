@@ -63,15 +63,6 @@ func main() {
 		}
 	}
 
-	if runtime.GOOS == "windows" {
-		// Make a hotkey to quit
-		hkey.Register(hotkey.Ctrl, 'Q', func() {
-			fmt.Println("Quit")
-			quit <- true
-		})
-	}
-
-	fmt.Println("Start hotkey's loop")
-	fmt.Println("Push Ctrl-Q to escape and quit")
+	fmt.Println("Started hotkey loop")
 	<-quit
 }
