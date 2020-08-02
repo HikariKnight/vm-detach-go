@@ -17,15 +17,8 @@ func HotkeySwitch(s string) uint32 {
 		// Convert the string from the config into a rune/char
 		r := []rune(s)
 
-		// Make an empty
-		ui32 := []uint32{}
-
-		// Convert our rune to uint32 using "dark magic"
-		for _, val := range r {
-			ui32 = append(ui32, uint32(val))
-		}
-
-		returnval = ui32[0]
+		// Return the rune/int32 as an uint32
+		returnval = uint32(r[0])
 	} else {
 		// Make switches for keys that are more than a single character
 		// And map them to the correct hotkey.modifier
